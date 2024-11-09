@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notui/src/sidebar/layout.dart';
-import 'package:notui/src/topbar/not_topbar.dart';
+import 'package:notui/notui.dart';
 
 typedef OnLogoTap = VoidCallback;
 
@@ -69,11 +68,7 @@ class _AppShell1State extends State<AppShell1> {
       builder: (context, constraints) {
         final screenWidth = MediaQuery.of(context).size.width;
 
-        var forceMobileDisplay = false;
         var forceWidthCollapse = false;
-        if (widget.smallWidthBreakpoint != null) {
-          forceMobileDisplay = screenWidth < widget.smallWidthBreakpoint!;
-        }
 
         if (widget.mediumWidthBreakpoint != null) {
           forceWidthCollapse = screenWidth < widget.mediumWidthBreakpoint!;
@@ -96,103 +91,80 @@ class _AppShell1State extends State<AppShell1> {
 
         final theme = Theme.of(context);
         final backgroundColor = theme.colorScheme.background;
-        if (forceMobileDisplay) {
-          return Column(
-            children: [
-              TopBar(
-                backgroundColor: backgroundColor,
-                bodyBuilder: () {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (widget.displayAppTitle)
-                        SideBarHeaderExpanded(
-                          appTitle: widget.appTitle,
-                          onLogoTap: _onLogoTap,
-                        ),
-                      ...NavigationItemsGenerator.generate(
-                        data: widget.topBarItems,
-                        config: bottomBarItemsConfig,
-                        onPressed: _onItemTap,
-                        selectedItemId: selectedItemId,
-                      ),
-                    ],
-                  );
-                },
-              ),
-              Expanded(
-                child: widget.pageBodyBuilder?.call(selectedItemId) ??
-                    DefaultPageBodyPlaceholder(
-                      selectedItemId: selectedItemId,
-                    ),
-              ),
-              Divider(
-                thickness: 1,
-                height: 1,
-                color: Colors.grey.shade300,
-              ),
-              if (widget.bottomBarItems.isNotEmpty)
-                BottomBar(
-                  backgroundColor: backgroundColor,
-                  bodyBuilder: () {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: NavigationItemsGenerator.generate(
-                        data: widget.bottomBarItems,
-                        config: bottomBarItemsConfig,
-                        onPressed: _onItemTap,
-                        selectedItemId: selectedItemId,
-                      ),
-                    );
-                  },
-                ),
-            ],
-          );
-        }
 
-        return Row(
-          children: [
-            NotSidebarLayout(
-              isCollapsed: actualCollapseState,
-              backgroundColor: backgroundColor,
-              expandedWidth: widget.sideBarExpandedWidth,
-              headerBuilder: () => _buildSideBarHeader(
-                actualCollapseState,
-              ),
-              bodyBuilder: () {
-                return widget.sideBarBodyBuilder?.call() ??
-                    SideBarBody(
-                      children: NavigationItemsGenerator.generate(
-                        data: widget.sideBarBodyItems,
-                        config: sideBarItemsConfig,
-                        onPressed: _onItemTap,
-                        selectedItemId: selectedItemId,
-                      ),
-                    );
-              },
-              footerBuilder: () {
-                return SideBarFooter(
-                  children: NavigationItemsGenerator.generate(
-                    data: widget.sideBarFooterItems,
-                    config: sideBarItemsConfig,
+        return NotUiAppShell1Layout(
+          breakpoints: NotUiBreakpoints(
+            small: widget.smallWidthBreakpoint,
+          ),
+          width: screenWidth,
+          topBar: TopBar(
+            backgroundColor: backgroundColor,
+            bodyBuilder: () {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (widget.displayAppTitle)
+                    SideBarHeaderExpanded(
+                      appTitle: widget.appTitle,
+                      onLogoTap: _onLogoTap,
+                    ),
+                  ...NavigationItemsGenerator.generate(
+                    data: widget.topBarItems,
+                    config: bottomBarItemsConfig,
                     onPressed: _onItemTap,
                     selectedItemId: selectedItemId,
                   ),
-                );
-              },
+                ],
+              );
+            },
+          ),
+          sideBar: NotUiSidebarLayout(
+            isExpanded: actualCollapseState,
+            backgroundColor: backgroundColor,
+            expandedWidth: widget.sideBarExpandedWidth,
+            headerBuilder: () => _buildSideBarHeader(
+              actualCollapseState,
             ),
-            VerticalDivider(
-              thickness: 1,
-              width: 1,
-              color: Colors.grey.shade300,
-            ),
-            Expanded(
-              child: widget.pageBodyBuilder?.call(selectedItemId) ??
-                  DefaultPageBodyPlaceholder(
-                    selectedItemId: selectedItemId,
-                  ),
-            ),
-          ],
+            bodyBuilder: () {
+              return widget.sideBarBodyBuilder?.call() ??
+                  SideBarBody(
+                    children: NavigationItemsGenerator.generate(
+                      data: widget.sideBarBodyItems,
+                      config: sideBarItemsConfig,
+                      onPressed: _onItemTap,
+                      selectedItemId: selectedItemId,
+                    ),
+                  );
+            },
+            footerBuilder: () {
+              return SideBarFooter(
+                children: NavigationItemsGenerator.generate(
+                  data: widget.sideBarFooterItems,
+                  config: sideBarItemsConfig,
+                  onPressed: _onItemTap,
+                  selectedItemId: selectedItemId,
+                ),
+              );
+            },
+          ),
+          body: widget.pageBodyBuilder?.call(selectedItemId) ??
+              DefaultPageBodyPlaceholder(
+                selectedItemId: selectedItemId,
+              ),
+          bottomBar: BottomBar(
+            backgroundColor: backgroundColor,
+            bodyBuilder: () {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: NavigationItemsGenerator.generate(
+                  data: widget.bottomBarItems,
+                  config: bottomBarItemsConfig,
+                  onPressed: _onItemTap,
+                  selectedItemId: selectedItemId,
+                ),
+              );
+            },
+          ),
         );
       },
     );

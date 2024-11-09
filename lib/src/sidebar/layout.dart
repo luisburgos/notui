@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 /// @no-doc
-class NotSidebarLayout extends StatelessWidget {
+class NotUiSidebarLayout extends StatelessWidget {
   /// @no-doc
-  const NotSidebarLayout({
+  const NotUiSidebarLayout({
     required this.bodyBuilder,
     required this.backgroundColor,
     this.headerBuilder,
     this.footerBuilder,
-    this.isCollapsed = false,
-    this.expandedWidth = 300,
+    this.isExpanded = true,
+    this.expandedWidth = 180,
     this.collapsedWidth = 80,
     super.key,
   });
 
   /// @no-doc
-  final bool isCollapsed;
+  final bool isExpanded;
 
   /// @no-doc
   final double expandedWidth;
@@ -36,15 +36,13 @@ class NotSidebarLayout extends StatelessWidget {
   final Widget Function()? footerBuilder;
 
   /// @no-doc
-  double get width => isCollapsed ? collapsedWidth : expandedWidth;
+  double get width => isExpanded ? expandedWidth : collapsedWidth;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: backgroundColor,
-      constraints: BoxConstraints(
-        maxWidth: width,
-      ),
+      width: width,
       child: Column(
         children: [
           if (headerBuilder != null)

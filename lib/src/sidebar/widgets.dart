@@ -5,15 +5,20 @@ class NotUiSidebarBottomBar extends StatelessWidget {
   /// @no-doc
   const NotUiSidebarBottomBar({
     required this.children,
+    required this.backgroundColor,
     super.key,
   });
 
   /// @no-doc
   final List<Widget> children;
 
+  /// @no-doc
+  final Color backgroundColor;
+
   @override
   Widget build(BuildContext context) {
     return NotUiSidebarBottomBarBuilder(
+      backgroundColor: backgroundColor,
       builder: () {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -29,7 +34,7 @@ class NotUiSidebarBottomBarBuilder extends StatelessWidget {
   /// @no-doc
   const NotUiSidebarBottomBarBuilder({
     required this.builder,
-    this.backgroundColor = Colors.black,
+    required this.backgroundColor,
     this.barHeight = 60,
     this.padding = const EdgeInsets.symmetric(
       vertical: 4,
