@@ -27,6 +27,7 @@ class NotUiSideBarMenuItem extends StatelessWidget {
   /// @no-doc
   const NotUiSideBarMenuItem({
     required this.data,
+    required this.isSelected,
     required this.onPressed,
     super.key,
   });
@@ -35,20 +36,28 @@ class NotUiSideBarMenuItem extends StatelessWidget {
   final NotUiSideBarMenuItemData data;
 
   /// @no-doc
+  final bool isSelected;
+
+  /// @no-doc
   final void Function(NotUiSideBarMenuItemData) onPressed;
 
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<NotUiSideBarController>();
 
+    final color = isSelected
+        ? ShadTheme.of(context).colorScheme.primary
+        : ShadTheme.of(context).colorScheme.mutedForeground;
     final icon = Icon(
       data.iconData,
       size: controller.state.configs.iconSize,
+      color: color,
     );
 
     if (controller.state.isExpanded) {
       return ShadButton.outline(
         width: double.infinity,
+        foregroundColor: color,
         onPressed: () => onPressed(data),
         icon: icon,
         decoration: const ShadDecoration(
@@ -65,6 +74,7 @@ class NotUiSideBarMenuItem extends StatelessWidget {
       );
     }
     return ShadButton.outline(
+      foregroundColor: color,
       onPressed: () => onPressed(data),
       icon: icon,
     );

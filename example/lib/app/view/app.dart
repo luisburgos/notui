@@ -1,3 +1,4 @@
+import 'package:example/app/view/app_bloc.dart';
 import 'package:example/app/view/multi_pane_body_example.dart';
 import 'package:example/app/view/sidebar_body_example.dart';
 import 'package:example/app/view/sidebar_header_example.dart';
@@ -13,10 +14,24 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const colorSchemeName = 'blue';
     return ShadApp.material(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
+      darkTheme: ShadThemeData(
+        brightness: Brightness.dark,
+        colorScheme: ShadColorScheme.fromName(
+          colorSchemeName,
+          brightness: Brightness.dark,
+        ),
+      ),
+      theme: ShadThemeData(
+        brightness: Brightness.light,
+        colorScheme: ShadColorScheme.fromName(
+          colorSchemeName,
+        ),
+      ),
       home: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -24,6 +39,9 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (_) => NotUiMultiPaneController(),
+          ),
+          BlocProvider(
+            create: (_) => AppCubit(),
           ),
         ],
         child: const ShowcaseSideBar(),
@@ -39,6 +57,7 @@ class ShowcaseSideBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final multiPaneController = context.watch<NotUiMultiPaneController>();
     final sideBarController = context.watch<NotUiSideBarController>();
+    final appCubit = context.watch<AppCubit>();
 
     return Scaffold(
       body: Row(
@@ -48,7 +67,10 @@ class ShowcaseSideBar extends StatelessWidget {
             headerBuilder: () => SidebarHeaderExample(
               isExpanded: sideBarController.state.isExpanded,
             ),
-            bodyBuilder: () => const SidebarBodyExample(),
+            bodyBuilder: () => SidebarBodyExample(
+              selectedIndex: appCubit.state.selectedIndex,
+              setSelectedIndex: appCubit.setSelectedIndex,
+            ),
             backgroundColor: ShadTheme.of(context).colorScheme.background,
           ),
           const VerticalDivider(

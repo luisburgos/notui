@@ -52,7 +52,10 @@ class NotUiMultiPaneLayout extends StatelessWidget {
       children: [
         if (header != null) ...[
           header!,
-          const Divider(),
+          const Divider(
+            thickness: 1,
+            height: 1,
+          ),
         ],
         Expanded(
           child: Row(
