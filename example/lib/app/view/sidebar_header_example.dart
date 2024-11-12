@@ -11,24 +11,27 @@ class SidebarHeaderExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(12),
-          child: Icon(
-            Icons.snapchat,
-            color: ShadTheme.of(context).colorScheme.primary,
-          ),
-        ),
-        if (isExpanded)
-          const Text(
-            'App Name',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        mainAxisAlignment:
+            isExpanded ? MainAxisAlignment.start : MainAxisAlignment.center,
+        children: [
+          if (!isExpanded)
+            Icon(
+              Icons.snapchat,
+              color: ShadTheme.of(context).colorScheme.primary,
             ),
-          )
-      ],
+          if (isExpanded)
+            const Text(
+              'App Name',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+              ),
+            )
+        ],
+      ),
     );
   }
 }
