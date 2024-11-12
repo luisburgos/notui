@@ -1,6 +1,10 @@
+import 'package:example/app/view/multi_pane_body_example.dart';
+import 'package:example/app/view/sidebar_body_example.dart';
+import 'package:example/app/view/sidebar_header_example.dart';
+import 'package:example/app/view/sidebar_toolbar_example.dart';
 import 'package:example/l10n/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notui/notui.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
@@ -9,12 +13,20 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ShadApp.material(
+    return ShadApp.material(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
-      home: ProviderScope(
-        child: ShowcaseSideBar(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => NotUiSideBarController(initialIsExpanded: false),
+          ),
+          BlocProvider(
+            create: (_) => NotUiMultiPaneController(),
+          ),
+        ],
+        child: const ShowcaseSideBar(),
       ),
     );
   }
@@ -25,75 +37,44 @@ class ShowcaseSideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final multiPaneController = context.watch<NotUiMultiPaneController>();
+    final sideBarController = context.watch<NotUiSideBarController>();
+
     return Scaffold(
       body: Row(
         children: [
-          NotUiSideBar(
-            headerBuilder: (state, controller) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (state.isExpanded) ...[
-                    const Icon(Icons.snapchat),
-                    const Spacer(),
-                  ],
-                  Switch(
-                    value: state.isExpanded,
-                    onChanged: (value) => controller.setExpanded(value),
-                  ),
-                ],
-              );
-            },
-            bodyBuilder: (state, controller) {
-              return Column(
-                children: [
-                  NotUiSideBarMenuItem(
-                    data: NotUiSideBarMenuItemData(
-                      id: 'home',
-                      label: 'Home',
-                      iconData: Icons.home,
-                    ),
-                    onPressed: (item) {},
-                  ),
-                  NotUiSideBarMenuItem(
-                    data: NotUiSideBarMenuItemData(
-                      id: 'profile',
-                      label: 'Profile',
-                      iconData: Icons.person,
-                    ),
-                    onPressed: (item) {},
-                  ),
-                ],
-              );
-            },
+          NotUiSidebarLayout(
+            isExpanded: sideBarController.state.isExpanded,
+            headerBuilder: () => SidebarHeaderExample(
+              isExpanded: sideBarController.state.isExpanded,
+            ),
+            bodyBuilder: () => const SidebarBodyExample(),
+            backgroundColor: ShadTheme.of(context).colorScheme.background,
           ),
           const VerticalDivider(
             thickness: 1,
             width: 1,
           ),
           Expanded(
-            child: NotUiMultiPane(
-              headerBuilder: (state, controller) {
-                return Row(
-                  children: [
-                    Flexible(
-                      child: SwitchListTile(
-                        title: const Text('isLeftPaneOpen'),
-                        value: state.isLeftPaneOpen,
-                        onChanged: controller.setLeftOpen,
-                      ),
-                    ),
-                    const Spacer(),
-                    Flexible(
-                      child: SwitchListTile(
-                        title: const Text('isRightPaneOpen'),
-                        value: state.isRightPaneOpen,
-                        onChanged: controller.setRightOpen,
-                      ),
-                    ),
-                  ],
-                );
-              },
+            child: NotUiMultiPaneLayout(
+              isLeftPaneOpen: multiPaneController.state.isLeftPaneOpen,
+              isRightPaneOpen: multiPaneController.state.isRightPaneOpen,
+              borderColor: ShadTheme.of(context).colorScheme.border,
+              header: const SideBarToolbarExample(),
+              body: MultiPaneBodyExample(
+                isLeftPaneOpen: multiPaneController.state.isLeftPaneOpen,
+                isRightPaneOpen: multiPaneController.state.isRightPaneOpen,
+                setLeftOpen: (value) => multiPaneController.setLeftOpen(
+                  isOpen: value,
+                ),
+                setRightOpen: (value) => multiPaneController.setRightOpen(
+                  isOpen: value,
+                ),
+                isSidebarOpen: sideBarController.state.isExpanded,
+                toggleSidebar: (value) => sideBarController.setExpanded(
+                  isExpanded: value,
+                ),
+              ),
             ),
           ),
         ],
@@ -103,7 +84,7 @@ class ShowcaseSideBar extends StatelessWidget {
 }
 
 class _MyApp extends StatefulWidget {
-  const _MyApp({super.key});
+  const _MyApp();
 
   @override
   State<_MyApp> createState() => _MyAppState();

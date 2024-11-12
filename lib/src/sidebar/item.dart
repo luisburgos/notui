@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notui/src/sidebar/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notui/src/sidebar/controller.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 /// @no-doc
@@ -23,7 +23,7 @@ class NotUiSideBarMenuItemData {
 }
 
 /// @no-doc
-class NotUiSideBarMenuItem extends ConsumerWidget {
+class NotUiSideBarMenuItem extends StatelessWidget {
   /// @no-doc
   const NotUiSideBarMenuItem({
     required this.data,
@@ -38,15 +38,15 @@ class NotUiSideBarMenuItem extends ConsumerWidget {
   final void Function(NotUiSideBarMenuItemData) onPressed;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(notUiSideBarNotifierProvider);
+  Widget build(BuildContext context) {
+    final controller = context.watch<NotUiSideBarController>();
 
     final icon = Icon(
       data.iconData,
-      size: state.configs.iconSize,
+      size: controller.state.configs.iconSize,
     );
 
-    if (state.isExpanded) {
+    if (controller.state.isExpanded) {
       return ShadButton.outline(
         width: double.infinity,
         onPressed: () => onPressed(data),

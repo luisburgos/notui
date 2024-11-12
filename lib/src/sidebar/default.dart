@@ -1,27 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notui/src/sidebar/controller.dart';
 import 'package:notui/src/sidebar/layout.dart';
-import 'package:notui/src/sidebar/provider.dart';
+import 'package:notui/src/sidebar/state.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 /// @no-doc
-class NotUiSideBarController {
-  /// @no-doc
-  const NotUiSideBarController({
-    required this.toggleOpen,
-    required this.setExpanded,
-  });
-
-  /// @no-doc
-  final void Function() toggleOpen;
-
-  /// @no-doc
-  /// ignore: avoid_positional_boolean_parameters
-  final void Function(bool) setExpanded;
-}
-
-/// @no-doc
-class NotUiSideBar extends ConsumerWidget {
+class NotUiSideBar extends StatelessWidget {
   /// @no-doc
   const NotUiSideBar({
     required this.headerBuilder,
@@ -42,23 +27,13 @@ class NotUiSideBar extends ConsumerWidget {
   ) headerBuilder;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch<NotUiSideBarState>(notUiSideBarNotifierProvider);
-    final controller = NotUiSideBarController(
-      toggleOpen: () {
-        ref.read(notUiSideBarNotifierProvider.notifier).toggle();
-      },
-      setExpanded: (isExpanded) {
-        ref
-            .read(notUiSideBarNotifierProvider.notifier)
-            .setExpanded(isExpanded: isExpanded);
-      },
-    );
+  Widget build(BuildContext context) {
+    final controller = context.watch<NotUiSideBarController>();
 
     return NotUiSidebarLayout(
-      isExpanded: state.isExpanded,
-      headerBuilder: () => headerBuilder(state, controller),
-      bodyBuilder: () => bodyBuilder(state, controller),
+      isExpanded: controller.state.isExpanded,
+      headerBuilder: () => headerBuilder(controller.state, controller),
+      bodyBuilder: () => bodyBuilder(controller.state, controller),
       backgroundColor: ShadTheme.of(context).colorScheme.background,
     );
   }

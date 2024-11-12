@@ -3,9 +3,11 @@ library;
 
 export 'src/app_shell_1/app_shell_1.dart';
 export 'src/app_shell_1/layout.dart';
+export 'src/multi_pane/controller.dart';
 export 'src/multi_pane/multi_pane.dart';
 export 'src/notui.dart';
 export 'src/shared/not_ui_breakpoints.dart';
+export 'src/sidebar/controller.dart';
 export 'src/sidebar/default.dart';
 export 'src/sidebar/item.dart';
 export 'src/sidebar/layout.dart';

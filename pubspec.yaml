@@ -8,10 +8,9 @@ environment:
   flutter: ^3.24.0
 
 dependencies:
-  hooks_riverpod: ^2.6.1
   flutter:
     sdk: flutter
-  flutter_riverpod: ^2.6.1
+  flutter_bloc: ^8.1.6
   shadcn_ui: ^0.15.3
 
 dev_dependencies:
