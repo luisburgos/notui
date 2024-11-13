@@ -2,8 +2,8 @@ import 'package:colorful_iconify_flutter/icons/twemoji.dart' show Twemoji;
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 
-class SidebarHeaderExample extends StatelessWidget {
-  const SidebarHeaderExample({
+class MySidebarHeader extends StatelessWidget {
+  const MySidebarHeader({
     required this.isExpanded,
     super.key,
   });

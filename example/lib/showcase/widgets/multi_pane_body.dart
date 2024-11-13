@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 /// @no-doc
-class MultiPaneBodyExample extends StatelessWidget {
+class MyMultiPaneBody extends StatelessWidget {
   /// @no-doc
-  const MultiPaneBodyExample({
+  const MyMultiPaneBody({
     required this.isLeftPaneOpen,
     required this.isRightPaneOpen,
     required this.isSidebarOpen,

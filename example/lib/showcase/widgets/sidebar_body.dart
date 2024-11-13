@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notui/notui.dart';
 
-class SidebarBodyExample extends StatelessWidget {
-  const SidebarBodyExample({
+class MySidebarBody extends StatelessWidget {
+  const MySidebarBody({
     required this.selectedIndex,
     required this.setSelectedIndex,
     super.key,

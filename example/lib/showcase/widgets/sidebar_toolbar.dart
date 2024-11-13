@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SideBarToolbarExample extends StatelessWidget {
-  const SideBarToolbarExample({
+class MySideBarToolbar extends StatelessWidget {
+  const MySideBarToolbar({
     required this.title,
     super.key,
   });
