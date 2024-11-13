@@ -1,5 +1,6 @@
+import 'package:colorful_iconify_flutter/icons/twemoji.dart' show Twemoji;
 import 'package:flutter/material.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
 
 class SidebarHeaderExample extends StatelessWidget {
   const SidebarHeaderExample({
@@ -17,17 +18,21 @@ class SidebarHeaderExample extends StatelessWidget {
         mainAxisAlignment:
             isExpanded ? MainAxisAlignment.start : MainAxisAlignment.center,
         children: [
-          if (!isExpanded)
-            Icon(
-              Icons.snapchat,
-              color: ShadTheme.of(context).colorScheme.primary,
+          Container(
+            margin: const EdgeInsets.all(4),
+            child: const Iconify(
+              Twemoji.bullseye,
             ),
+          ),
           if (isExpanded)
-            const Text(
-              'App Name',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w900,
+            Container(
+              margin: const EdgeInsets.all(4),
+              child: const Text(
+                'NotUI',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             )
         ],
