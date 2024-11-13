@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:notui/src/shared/not_ui_breakpoints.dart';
+import 'package:notui/notui.dart';
 
 /// @no-doc
-class NotUiAppShell1Layout extends StatelessWidget {
+class NotUiAppShell2 extends StatelessWidget {
   /// @no-doc
-  const NotUiAppShell1Layout({
+  const NotUiAppShell2({
     required this.topBar,
     required this.body,
     required this.breakpoints,
@@ -15,13 +15,13 @@ class NotUiAppShell1Layout extends StatelessWidget {
   });
 
   /// @no-doc
-  final Widget topBar;
+  final Widget sideBar;
 
   /// @no-doc
   final Widget body;
 
   /// @no-doc
-  final Widget sideBar;
+  final Widget topBar;
 
   /// @no-doc
   final Widget? bottomBar;
@@ -56,18 +56,9 @@ class NotUiAppShell1Layout extends StatelessWidget {
       );
     }
 
-    return Row(
-      children: [
-        sideBar,
-        VerticalDivider(
-          thickness: 1,
-          width: 1,
-          color: Colors.grey.shade300,
-        ),
-        Expanded(
-          child: body,
-        ),
-      ],
+    return NotUiAppShell1(
+      sideBar: sideBar,
+      body: body,
     );
   }
 }

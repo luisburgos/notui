@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notui/src/sidebar/state.dart';
+import 'package:notui/src/not_side_bar/state.dart';
 
 /// @no-doc
-class NotUiSideBarController extends Cubit<NotUiSideBarState> {
+class NotUiSideBarCubit extends Cubit<NotUiSideBarState> {
   /// @no-doc
-  NotUiSideBarController({
+  NotUiSideBarCubit({
     required this.initialIsExpanded,
   }) : super(
           NotUiSideBarState(
@@ -18,15 +18,19 @@ class NotUiSideBarController extends Cubit<NotUiSideBarState> {
 
   /// @no-doc
   void setExpanded({bool isExpanded = true}) {
-    emit(state.copyWith(
-      isExpanded: isExpanded,
-    ));
+    emit(
+      state.copyWith(
+        isExpanded: isExpanded,
+      ),
+    );
   }
 
   /// @no-doc
   void toggle() {
-    emit(state.copyWith(
-      isExpanded: !state.isExpanded,
-    ));
+    emit(
+      state.copyWith(
+        isExpanded: !state.isExpanded,
+      ),
+    );
   }
 }

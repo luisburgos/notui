@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 const notUiDefaultLeftPaneWidth = 250.0;
 
 /// @no-doc
-class NotUiMultiPaneLayout extends StatelessWidget {
+class NotUiMultiPane extends StatelessWidget {
   /// @no-doc
-  const NotUiMultiPaneLayout({
+  const NotUiMultiPane({
     required this.borderColor,
     this.isLeftPaneOpen = false,
     this.isRightPaneOpen = false,

@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notui/src/multi_pane/state.dart';
+import 'package:notui/src/not_multi_pane/state.dart';
 
 /// @no-doc
-class NotUiMultiPaneController extends Cubit<NotUiMultiPaneState> {
+class NotUiMultiPaneCubit extends Cubit<NotUiMultiPaneState> {
   /// @no-doc
-  NotUiMultiPaneController({
+  NotUiMultiPaneCubit({
     this.initialConfigs = const NotUiMultiPaneConfigs(),
   }) : super(
           NotUiMultiPaneState(

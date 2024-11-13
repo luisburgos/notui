@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notui/src/sidebar/controller.dart';
+import 'package:notui/src/not_side_bar/cubit.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 /// @no-doc
@@ -43,7 +43,7 @@ class NotUiSideBarMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<NotUiSideBarController>();
+    final controller = context.watch<NotUiSideBarCubit>();
 
     final color = isSelected
         ? ShadTheme.of(context).colorScheme.primary

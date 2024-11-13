@@ -35,10 +35,10 @@ class App extends StatelessWidget {
       home: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => NotUiSideBarController(initialIsExpanded: false),
+            create: (_) => NotUiSideBarCubit(initialIsExpanded: false),
           ),
           BlocProvider(
-            create: (_) => NotUiMultiPaneController(),
+            create: (_) => NotUiMultiPaneCubit(),
           ),
           BlocProvider(
             create: (_) => AppCubit(),
@@ -55,155 +55,44 @@ class ShowcaseSideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final multiPaneController = context.watch<NotUiMultiPaneController>();
-    final sideBarController = context.watch<NotUiSideBarController>();
+    final multiPaneController = context.watch<NotUiMultiPaneCubit>();
+    final sideBarController = context.watch<NotUiSideBarCubit>();
     final appCubit = context.watch<AppCubit>();
 
     return Scaffold(
-      body: Row(
-        children: [
-          NotUiSidebarLayout(
+      body: NotUiAppShell1(
+        sideBar: NotUiSideBar(
+          isExpanded: sideBarController.state.isExpanded,
+          headerBuilder: () => SidebarHeaderExample(
             isExpanded: sideBarController.state.isExpanded,
-            headerBuilder: () => SidebarHeaderExample(
-              isExpanded: sideBarController.state.isExpanded,
-            ),
-            bodyBuilder: () => SidebarBodyExample(
-              selectedIndex: appCubit.state.selectedIndex,
-              setSelectedIndex: appCubit.setSelectedIndex,
-            ),
-            backgroundColor: ShadTheme.of(context).colorScheme.background,
           ),
-          const VerticalDivider(
-            thickness: 1,
-            width: 1,
+          bodyBuilder: () => SidebarBodyExample(
+            selectedIndex: appCubit.state.selectedIndex,
+            setSelectedIndex: appCubit.setSelectedIndex,
           ),
-          Expanded(
-            child: NotUiMultiPaneLayout(
-              isLeftPaneOpen: multiPaneController.state.isLeftPaneOpen,
-              isRightPaneOpen: multiPaneController.state.isRightPaneOpen,
-              borderColor: ShadTheme.of(context).colorScheme.border,
-              header: SideBarToolbarExample(
-                title: appCubit.titleForSelectedIndex,
-              ),
-              body: MultiPaneBodyExample(
-                isLeftPaneOpen: multiPaneController.state.isLeftPaneOpen,
-                isRightPaneOpen: multiPaneController.state.isRightPaneOpen,
-                setLeftOpen: (value) => multiPaneController.setLeftOpen(
-                  isOpen: value,
-                ),
-                setRightOpen: (value) => multiPaneController.setRightOpen(
-                  isOpen: value,
-                ),
-                isSidebarOpen: sideBarController.state.isExpanded,
-                toggleSidebar: (value) => sideBarController.setExpanded(
-                  isExpanded: value,
-                ),
-              ),
+          backgroundColor: ShadTheme.of(context).colorScheme.background,
+        ),
+        body: NotUiMultiPane(
+          isLeftPaneOpen: multiPaneController.state.isLeftPaneOpen,
+          isRightPaneOpen: multiPaneController.state.isRightPaneOpen,
+          borderColor: ShadTheme.of(context).colorScheme.border,
+          header: SideBarToolbarExample(
+            title: appCubit.titleForSelectedIndex,
+          ),
+          body: MultiPaneBodyExample(
+            isLeftPaneOpen: multiPaneController.state.isLeftPaneOpen,
+            isRightPaneOpen: multiPaneController.state.isRightPaneOpen,
+            setLeftOpen: (value) => multiPaneController.setLeftOpen(
+              isOpen: value,
+            ),
+            setRightOpen: (value) => multiPaneController.setRightOpen(
+              isOpen: value,
+            ),
+            isSidebarOpen: sideBarController.state.isExpanded,
+            toggleSidebar: (value) => sideBarController.setExpanded(
+              isExpanded: value,
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class _MyApp extends StatefulWidget {
-  const _MyApp();
-
-  @override
-  State<_MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<_MyApp> {
-  int selectedIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    final logoButton = IconButton(
-      //color: selectedIndex == 0 ? Colors.red : null,
-      onPressed: () => setState(() {
-        selectedIndex = 0;
-      }),
-      icon: const Icon(Icons.snapchat),
-    );
-    final homeButton = IconButton(
-      color: selectedIndex == 0 ? Colors.red : null,
-      onPressed: () => setState(() {
-        selectedIndex = 0;
-      }),
-      icon: const Icon(Icons.home_filled),
-    );
-    final listButton = IconButton(
-      color: selectedIndex == 1 ? Colors.red : null,
-      onPressed: () => setState(() {
-        selectedIndex = 1;
-      }),
-      icon: const Icon(Icons.list),
-    );
-    final profileButton = IconButton(
-      color: selectedIndex == 2 ? Colors.red : null,
-      onPressed: () => setState(() {
-        selectedIndex = 2;
-      }),
-      icon: const Icon(Icons.person),
-    );
-    final settingsButton = IconButton(
-      color: selectedIndex == 3 ? Colors.red : null,
-      onPressed: () => setState(() {
-        selectedIndex = 3;
-      }),
-      icon: const Icon(Icons.settings),
-    );
-    final backgroundColor = ShadTheme.of(context).colorScheme.background;
-
-    return Scaffold(
-      body: NotUiAppShell1Layout(
-        width: screenWidth,
-        breakpoints: const NotUiBreakpoints(
-          small: 600,
-        ),
-        sideBar: NotUiSidebarLayout(
-          headerBuilder: () => SizedBox(
-            height: 40,
-            child: logoButton,
-          ),
-          bodyBuilder: () {
-            return Column(
-              children: [
-                homeButton,
-                listButton,
-                profileButton,
-              ],
-            );
-          },
-          footerBuilder: () {
-            return Column(
-              children: [
-                settingsButton,
-              ],
-            );
-          },
-          backgroundColor: backgroundColor,
-        ),
-        topBar: Row(
-          children: [
-            logoButton,
-            const Spacer(),
-            profileButton,
-          ],
-        ),
-        body: Center(
-          child: Text('Selected index: $selectedIndex'),
-        ),
-        bottomBar: NotUiSidebarBottomBar(
-          backgroundColor: backgroundColor,
-          children: [
-            homeButton,
-            listButton,
-            settingsButton,
-          ],
         ),
       ),
     );

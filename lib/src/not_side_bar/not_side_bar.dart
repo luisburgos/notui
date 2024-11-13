@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 /// @no-doc
-class NotUiSidebarLayout extends StatelessWidget {
+class NotUiSideBar extends StatelessWidget {
   /// @no-doc
-  const NotUiSidebarLayout({
+  const NotUiSideBar({
     required this.bodyBuilder,
     required this.backgroundColor,
     this.headerBuilder,

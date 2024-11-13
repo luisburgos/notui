@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 /// @no-doc
-class NotUiSidebarBottomBar extends StatelessWidget {
+class NotUiBottomBar extends StatelessWidget {
   /// @no-doc
-  const NotUiSidebarBottomBar({
+  const NotUiBottomBar({
     required this.children,
     required this.backgroundColor,
     super.key,
@@ -17,7 +17,7 @@ class NotUiSidebarBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NotUiSidebarBottomBarBuilder(
+    return NotUiBottomBarBuilder(
       backgroundColor: backgroundColor,
       builder: () {
         return Row(
@@ -30,9 +30,9 @@ class NotUiSidebarBottomBar extends StatelessWidget {
 }
 
 /// @no-doc
-class NotUiSidebarBottomBarBuilder extends StatelessWidget {
+class NotUiBottomBarBuilder extends StatelessWidget {
   /// @no-doc
-  const NotUiSidebarBottomBarBuilder({
+  const NotUiBottomBarBuilder({
     required this.builder,
     required this.backgroundColor,
     this.barHeight = 60,
