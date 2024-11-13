@@ -37,17 +37,33 @@ class MultiPaneBodyExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Center(
-        child: ShadCard(
+    return Center(
+      child: ShadCard(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minWidth: 400,
+            maxHeight: 400,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Text(
+                'Example Controls',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text('SIDEBAR'),
+              const SizedBox(height: 10),
               ShadSwitch(
                 label: const Text('isSidebarOpen'),
                 value: isSidebarOpen,
                 onChanged: toggleSidebar,
               ),
+              const SizedBox(height: 24),
+              const Text('MULTI-PANE'),
+              const SizedBox(height: 10),
               ShadSwitch(
                 label: const Text('isLeftPaneOpen'),
                 value: isLeftPaneOpen,

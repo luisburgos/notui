@@ -82,7 +82,9 @@ class ShowcaseSideBar extends StatelessWidget {
               isLeftPaneOpen: multiPaneController.state.isLeftPaneOpen,
               isRightPaneOpen: multiPaneController.state.isRightPaneOpen,
               borderColor: ShadTheme.of(context).colorScheme.border,
-              header: const SideBarToolbarExample(),
+              header: SideBarToolbarExample(
+                title: appCubit.titleForSelectedIndex,
+              ),
               body: MultiPaneBodyExample(
                 isLeftPaneOpen: multiPaneController.state.isLeftPaneOpen,
                 isRightPaneOpen: multiPaneController.state.isRightPaneOpen,
